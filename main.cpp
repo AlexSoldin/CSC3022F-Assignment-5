@@ -22,10 +22,8 @@ int main(){
     pca.readFile(inputFileName);
 
     /* Eigenvalues for Principal Components 1 and 2 */
-
-
     /* Eigenvectors for Principal Components 1 and 2 */
-
+    pca.calculateEigen();
 
 
     /* Compute Covariance Matrix */

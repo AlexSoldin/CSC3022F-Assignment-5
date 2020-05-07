@@ -7,6 +7,8 @@
 #include <ios>
 #include <memory>
 
+#include "Eigen/Dense"
+
 #ifndef PCA_H
 #define PCA_H
 
@@ -17,7 +19,7 @@ namespace SLDALE003 {
 
             std::vector<double> firstData;
             std::vector<double> secondData;
-
+             
             double firstMean;
             double secondMean;
 
@@ -31,6 +33,7 @@ namespace SLDALE003 {
 
             void readFile(std::string fileName);
 
+            void calculateEigen();
             void calculateMeans();
             void calculateVariances();
             void calculateCovariance();

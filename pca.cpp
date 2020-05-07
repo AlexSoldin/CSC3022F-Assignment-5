@@ -14,6 +14,9 @@
 
 using namespace std;
 
+Eigen::MatrixXd M(64, 2);
+Eigen::MatrixXd CV(2, 2);
+
 SLDALE003::PCA::PCA(){
 
 }
@@ -42,6 +45,11 @@ void SLDALE003::PCA::readFile(std::string fileName){
             secondData.push_back(stod(data2));
         }
 
+        for (int i=0; i < firstData.size(); i++){
+            M(i, 0) = firstData[i];
+            M(i, 1) = secondData[i];
+        }
+
         /* Check Data */
         // cout << datasetOne << endl;
         // cout << datasetTwo << endl;
@@ -52,8 +60,18 @@ void SLDALE003::PCA::readFile(std::string fileName){
         //     cout << secondData[i] << endl;
         // }
 
+        // cout << M << endl;
+
     }
-}  
+}
+
+void SLDALE003::PCA::calculateEigen(){
+    Eigen::EigenSolver<Eigen::MatrixXd> es(CV);
+    cout << "------------------------\nEigenvalues\n------------------------" << endl;
+    cout << es.eigenvalues() << "\n\n";
+    cout << "------------------------\nEigenvectors\n------------------------" << endl;
+    cout <<  es.eigenvectors() << "\n\n";
+}
 
 void SLDALE003::PCA::calculateMeans(){
     double total1 = 0;
@@ -101,8 +119,13 @@ void SLDALE003::PCA::calculateCovariance(){
 
     covariance = total/(firstData.size()-1);
 
-    cout << "------------------------\nCovariance\n------------------------" << endl;
-    cout << covariance << "\n\n";
+    CV(0,0) = firstVariance;
+    CV(1,0) = covariance;
+    CV(0,1) = covariance;
+    CV(1,1) = secondVariance;
+
+    cout << "------------------------\nCovariance Matrix\n------------------------" << endl;
+    cout << CV << "\n\n";
 }
 
 void SLDALE003::PCA::calculateTotalVariance(){
