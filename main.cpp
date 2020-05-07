@@ -18,13 +18,8 @@ int main(){
     SLDALE003::PCA pca;
 
     /* Read Input Data */
-    std::string inputFileName = "Data.txt";
+    string inputFileName = "Data.txt";
     pca.readFile(inputFileName);
-
-    /* Eigenvalues for Principal Components 1 and 2 */
-    /* Eigenvectors for Principal Components 1 and 2 */
-    pca.calculateEigen();
-
 
     /* Compute Covariance Matrix */
     pca.calculateMeans();
@@ -34,11 +29,12 @@ int main(){
     /* Total Variance */
     pca.calculateTotalVariance();
 
+    /* Eigenvalues for Principal Components 1 and 2 */
+    /* Eigenvectors for Principal Components 1 and 2 */ 
     /* Percentage Proportion of Total Variance do Principal Components 1 and 2 Explain */
-
-
     /* Generate Output */
-
+    string outputFileName = "Output.txt";
+    pca.generateOutput(outputFileName);
 
     return 0;
 }

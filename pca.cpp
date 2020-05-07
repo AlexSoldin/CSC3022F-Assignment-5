@@ -65,14 +65,6 @@ void SLDALE003::PCA::readFile(std::string fileName){
     }
 }
 
-void SLDALE003::PCA::calculateEigen(){
-    Eigen::EigenSolver<Eigen::MatrixXd> es(CV);
-    cout << "------------------------\nEigenvalues\n------------------------" << endl;
-    cout << es.eigenvalues() << "\n\n";
-    cout << "------------------------\nEigenvectors\n------------------------" << endl;
-    cout <<  es.eigenvectors() << "\n\n";
-}
-
 void SLDALE003::PCA::calculateMeans(){
     double total1 = 0;
     double total2 = 0;
@@ -84,11 +76,11 @@ void SLDALE003::PCA::calculateMeans(){
     firstMean = total1/firstData.size();
     secondMean = total2/secondData.size();
 
-    cout << "------------------------\nMeans\n------------------------" << endl;
-    cout << "Number of Elements: " << firstData.size() << endl;
-    cout << firstMean << endl;
-    cout << "Number of Elements: " << secondData.size() << endl;
-    cout << secondMean << "\n\n";
+    // cout << "------------------------\nMeans\n------------------------" << endl;
+    // cout << "Number of Elements: " << firstData.size() << endl;
+    // cout << firstMean << endl;
+    // cout << "Number of Elements: " << secondData.size() << endl;
+    // cout << secondMean << "\n\n";
     
 }
 
@@ -104,9 +96,9 @@ void SLDALE003::PCA::calculateVariances(){
     firstVariance = total1/(firstData.size()-1);
     secondVariance = total2/(secondData.size()-1);
 
-    cout << "------------------------\nVariances\n------------------------" << endl;
-    cout << firstVariance << endl;
-    cout << secondVariance << "\n\n";
+    // cout << "------------------------\nVariances\n------------------------" << endl;
+    // cout << firstVariance << endl;
+    // cout << secondVariance << "\n\n";
 
 }
 
@@ -124,14 +116,40 @@ void SLDALE003::PCA::calculateCovariance(){
     CV(0,1) = covariance;
     CV(1,1) = secondVariance;
 
-    cout << "------------------------\nCovariance Matrix\n------------------------" << endl;
-    cout << CV << "\n\n";
+    // cout << "------------------------\nCovariance Matrix\n------------------------" << endl;
+    // cout << CV << "\n\n";
 }
 
 void SLDALE003::PCA::calculateTotalVariance(){
     // Variance (A + B) = Variance A + Variance B + 2*Covariance(A,B)
     totalVariance = firstVariance + secondVariance + 2*(covariance);
 
-    cout << "------------------------\nTotal Variance\n------------------------" << endl;
-    cout << totalVariance << "\n\n";
+    // cout << "------------------------\nTotal Variance\n------------------------" << endl;
+    // cout << totalVariance << "\n\n";
+}
+
+void SLDALE003::PCA::generateOutput(std::string outputFileName){
+    Eigen::EigenSolver<Eigen::MatrixXd> es(CV);
+    ofstream outputFile;
+    outputFile.open("./Output/"+outputFileName);
+    
+    outputFile << "---------------------------------------------\nQuestion 1: Eigenvalues\n---------------------------------------------" << endl;
+    outputFile << "PC1: " << es.eigenvalues().col(0)[0].real() << endl;
+    outputFile << "PC2: " << es.eigenvalues().col(0)[1].real() << endl;
+
+    outputFile << "---------------------------------------------\nQuestion 2: Eigenvectors\n---------------------------------------------" << endl;
+    outputFile << "PC1: " << endl << es.eigenvectors().col(0)[0].real() << endl << es.eigenvectors().col(0)[1].real() << endl;
+    outputFile << "PC2: " << endl << es.eigenvectors().col(1)[0].real() << endl << es.eigenvectors().col(1)[1].real() << endl;
+
+    outputFile << "---------------------------------------------\nQuestion 3: Covariance Matrix\n---------------------------------------------" << endl;
+    outputFile << CV << endl;
+
+    outputFile << "---------------------------------------------\nQuestion 4: Total Variance\n---------------------------------------------" << endl;
+    outputFile << totalVariance << endl;
+
+    outputFile << "---------------------------------------------\nQuestion 5: Proportion of Total Variance\n---------------------------------------------" << endl;
+    outputFile << "PC1: " << ((es.eigenvalues().col(0)[0].real())/totalVariance)*100 << "%" << endl;
+    outputFile << "PC2: " << ((es.eigenvalues().col(0)[1].real())/totalVariance)*100 << "%" << endl;
+
+    outputFile.close();
 }

@@ -33,11 +33,12 @@ namespace SLDALE003 {
 
             void readFile(std::string fileName);
 
-            void calculateEigen();
             void calculateMeans();
             void calculateVariances();
             void calculateCovariance();
             void calculateTotalVariance();
+
+            void generateOutput(std::string outputFileName);
     };
 }
 
