@@ -122,7 +122,7 @@ void SLDALE003::PCA::calculateCovariance(){
 
 void SLDALE003::PCA::calculateTotalVariance(){
     // Variance (A + B) = Variance A + Variance B + 2*Covariance(A,B)
-    totalVariance = firstVariance + secondVariance + 2*(covariance);
+    totalVariance = firstVariance + secondVariance;
 
     // cout << "------------------------\nTotal Variance\n------------------------" << endl;
     // cout << totalVariance << "\n\n";
